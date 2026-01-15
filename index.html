@@ -1,102 +1,127 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>QR 코드 생성기</title>
+<meta charset="UTF-8">
+<title>곰돌이 QR 코드 생성기</title>
 
-    <!-- QRCode.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
+    body {
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+    }
 
-        .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            width: 320px;
-            text-align: center;
-        }
+    .container {
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        width: 350px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
 
-        h1 {
-            margin-bottom: 20px;
-            font-size: 22px;
-        }
+    input, button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
+    button {
+        border: none;
+        background: #8d6e63;
+        color: #fff;
+        cursor: pointer;
+    }
 
-        button {
-            width: 100%;
-            padding: 10px;
-            font-size: 15px;
-            border: none;
-            border-radius: 6px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
+    button:hover {
+        background: #6d4c41;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    /* 곰돌이 프레임 */
+    .bear-frame {
+        position: relative;
+        width: 260px;
+        height: 260px;
+        margin: 20px auto 0;
+        background: #d7a86e;
+        border-radius: 50%;
+    }
 
-        #qrcode {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    .ear {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        background: #d7a86e;
+        border-radius: 50%;
+        top: -20px;
+    }
+
+    .ear.left { left: -20px; }
+    .ear.right { right: -20px; }
+
+    .inner-face {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: #fff;
+        border-radius: 20px;
+        top: 30px;
+        left: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #qrcode {
+        padding: 5px;
+        background: white;
+    }
+</style>
 </head>
 <body>
 
 <div class="container">
-    <h1>QR 코드 생성기</h1>
-
+    <h2>🧸 곰돌이 QR 코드</h2>
     <input type="text" id="text" placeholder="텍스트 또는 URL 입력">
     <button onclick="generateQRCode()">QR 코드 생성</button>
 
-    <div id="qrcode"></div>
+    <div class="bear-frame">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="inner-face">
+            <div id="qrcode"></div>
+        </div>
+    </div>
 </div>
 
 <script>
-    let qrCode;
+function generateQRCode() {
+    const text = document.getElementById("text").value.trim();
+    const qr = document.getElementById("qrcode");
 
-    function generateQRCode() {
-        const text = document.getElementById("text").value;
-        const qrContainer = document.getElementById("qrcode");
+    qr.innerHTML = "";
 
-        // 기존 QR 코드 제거
-        qrContainer.innerHTML = "";
-
-        if (text.trim() === "") {
-            alert("텍스트를 입력해주세요.");
-            return;
-        }
-
-        qrCode = new QRCode(qrContainer, {
-            text: text,
-            width: 200,
-            height: 200,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H
-        });
+    if (!text) {
+        alert("텍스트를 입력해주세요");
+        return;
     }
+
+    new QRCode(qr, {
+        text: text,
+        width: 160,
+        height: 160,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+}
 </script>
 
 </body>
